@@ -1,0 +1,345 @@
+/* 紅蓮の刻 - メインスタイル */
+:root {
+  --primary-color: #ff3d00;
+  --secondary-color: #ff9100;
+  --gold-color: #ffd700;
+  --dark-bg: #0a0a0a;
+  --panel-bg: #1a1a1a;
+  --cabinet-bg: linear-gradient(180deg, #2d2d2d 0%, #1a1a1a 50%, #0d0d0d 100%);
+  --glow-red: 0 0 20px rgba(255, 61, 0, 0.8);
+  --glow-gold: 0 0 20px rgba(255, 215, 0, 0.8);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #000;
+  color: #fff;
+  font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+  overflow: hidden;
+  user-select: none;
+}
+
+#game-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  gap: 20px;
+}
+
+/* パチンコ筐体 */
+#pachinko-cabinet {
+  background: var(--cabinet-bg);
+  border: 4px solid #333;
+  border-radius: 20px;
+  padding: 15px;
+  box-shadow:
+    0 0 30px rgba(0, 0, 0, 0.8),
+    inset 0 0 50px rgba(0, 0, 0, 0.5);
+}
+
+/* 上部ランプ */
+#top-lamp {
+  background: linear-gradient(180deg, #1a0000 0%, #330000 50%, #1a0000 100%);
+  border: 2px solid #ff3d00;
+  border-radius: 10px;
+  padding: 10px 30px;
+  text-align: center;
+  margin-bottom: 10px;
+  box-shadow: var(--glow-red);
+}
+
+.lamp-text {
+  font-size: 28px;
+  font-weight: bold;
+  color: var(--primary-color);
+  text-shadow:
+    0 0 10px var(--primary-color),
+    0 0 20px var(--primary-color),
+    0 0 40px var(--primary-color);
+  letter-spacing: 8px;
+  animation: lampPulse 2s ease-in-out infinite;
+}
+
+@keyframes lampPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* 盤面エリア */
+#board-area {
+  position: relative;
+  width: 540px;
+  height: 700px;
+  background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 100%);
+  border: 3px solid #444;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+#board-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* 液晶画面 */
+#lcd-screen {
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 320px;
+  height: 240px;
+  background: #000;
+  border: 4px solid #222;
+  border-radius: 8px;
+  box-shadow:
+    inset 0 0 30px rgba(0, 0, 0, 0.8),
+    0 0 15px rgba(255, 61, 0, 0.3);
+  z-index: 10;
+  overflow: hidden;
+}
+
+#lcd-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* 下部パネル */
+#bottom-panel {
+  background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%);
+  border: 2px solid #444;
+  border-radius: 10px;
+  padding: 15px;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#ball-info {
+  display: flex;
+  gap: 20px;
+}
+
+.info-item {
+  background: #111;
+  border: 2px solid #333;
+  border-radius: 8px;
+  padding: 8px 15px;
+  text-align: center;
+}
+
+.info-item .label {
+  display: block;
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 4px;
+}
+
+.info-item .value {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--gold-color);
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+/* 発射ハンドル */
+#handle-area {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+#handle {
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle at 30% 30%, #666 0%, #333 50%, #222 100%);
+  border: 3px solid #555;
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.5),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.3);
+  transition: transform 0.1s ease;
+}
+
+#handle:active {
+  transform: scale(0.95);
+}
+
+#handle-knob {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle at 30% 30%, #ff6600 0%, #cc3300 100%);
+  border: 2px solid #ff9900;
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(255, 102, 0, 0.6);
+}
+
+#handle-power {
+  width: 20px;
+  height: 100px;
+  background: #111;
+  border: 2px solid #333;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+#power-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background: linear-gradient(180deg, #ff3d00 0%, #ff9100 100%);
+  transition: height 0.1s ease;
+  box-shadow: 0 0 10px rgba(255, 61, 0, 0.8);
+}
+
+/* サイドパネル */
+#side-panel {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+#game-status {
+  background: var(--panel-bg);
+  border: 2px solid #333;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.status-title {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+
+#mode-display {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  padding: 10px;
+  background: #222;
+  border-radius: 5px;
+  text-align: center;
+}
+
+#mode-display.rush {
+  background: linear-gradient(135deg, #330000 0%, #660000 100%);
+  color: var(--primary-color);
+  animation: rushGlow 0.5s ease-in-out infinite alternate;
+  border: 2px solid var(--primary-color);
+}
+
+@keyframes rushGlow {
+  0% { box-shadow: 0 0 10px rgba(255, 61, 0, 0.5); }
+  100% { box-shadow: 0 0 25px rgba(255, 61, 0, 0.9); }
+}
+
+#rush-counter {
+  margin-top: 10px;
+  padding: 10px;
+  background: #111;
+  border-radius: 5px;
+  text-align: center;
+}
+
+#rush-counter.hidden {
+  display: none;
+}
+
+.rush-label {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+#rush-remaining {
+  font-size: 32px;
+  font-weight: bold;
+  color: var(--gold-color);
+  margin: 0 5px;
+}
+
+.rush-unit {
+  color: #888;
+  font-size: 14px;
+}
+
+#history {
+  background: var(--panel-bg);
+  border: 2px solid #333;
+  border-radius: 10px;
+  padding: 15px;
+  flex: 1;
+}
+
+.history-title {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+
+#history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.history-item {
+  background: #222;
+  border-radius: 5px;
+  padding: 8px 10px;
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.history-item.jackpot {
+  border-left: 3px solid var(--primary-color);
+}
+
+.history-item.rush {
+  border-left: 3px solid var(--gold-color);
+}
+
+/* レスポンシブ */
+@media (max-width: 900px) {
+  #game-container {
+    flex-direction: column;
+  }
+
+  #side-panel {
+    width: 100%;
+    max-width: 540px;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  #game-status, #history {
+    flex: 1;
+    min-width: 200px;
+  }
+}
