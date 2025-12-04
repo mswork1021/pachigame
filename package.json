@@ -1,0 +1,21 @@
+{
+  "name": "guren-no-toki",
+  "version": "1.0.0",
+  "description": "紅蓮の刻 -GUREN NO TOKI- パチンコシミュレーター",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "pixi.js": "^8.6.6",
+    "matter-js": "^0.20.0",
+    "howler": "^2.2.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "vite": "^6.0.3",
+    "@types/matter-js": "^0.19.7"
+  }
+}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>紅蓮の刻 -GUREN NO TOKI-</title>
+  <link rel="stylesheet" href="/src/styles/main.css">
+</head>
+<body>
+  <div id="game-container">
+    <!-- メイン盤面 -->
+    <div id="pachinko-cabinet">
+      <!-- 上部ランプ -->
+      <div id="top-lamp">
+        <div class="lamp-text">紅蓮の刻</div>
+      </div>
+
+      <!-- 盤面エリア -->
+      <div id="board-area">
+        <!-- 液晶画面（デジタル） -->
+        <div id="lcd-screen">
+          <canvas id="lcd-canvas"></canvas>
+        </div>
+        <!-- 盤面（玉が落ちる部分） -->
+        <canvas id="board-canvas"></canvas>
+      </div>
+
+      <!-- 下部パネル -->
+      <div id="bottom-panel">
+        <div id="ball-info">
+          <div class="info-item">
+            <span class="label">持玉</span>
+            <span id="ball-count" class="value">1000</span>
+          </div>
+          <div class="info-item">
+            <span class="label">総回転</span>
+            <span id="spin-count" class="value">0</span>
+          </div>
+          <div class="info-item">
+            <span class="label">大当り</span>
+            <span id="jackpot-count" class="value">0</span>
+          </div>
+        </div>
+
+        <!-- 発射ハンドル -->
+        <div id="handle-area">
+          <div id="handle">
+            <div id="handle-knob"></div>
+          </div>
+          <div id="handle-power">
+            <div id="power-bar"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- サイドパネル（演出情報など） -->
+    <div id="side-panel">
+      <div id="game-status">
+        <div class="status-title">GAME STATUS</div>
+        <div id="mode-display">通常モード</div>
+        <div id="rush-counter" class="hidden">
+          <span class="rush-label">RUSH</span>
+          <span id="rush-remaining">100</span>
+          <span class="rush-unit">回転</span>
+        </div>
+      </div>
+      <div id="history">
+        <div class="history-title">大当り履歴</div>
+        <div id="history-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
