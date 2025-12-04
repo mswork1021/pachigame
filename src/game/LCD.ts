@@ -1,4 +1,4 @@
-import { Application, Graphics, Container, Text, TextStyle, BlurFilter } from 'pixi.js';
+import { Application, Graphics, Container, Text, TextStyle } from 'pixi.js';
 
 // 図柄定義
 const SYMBOLS = ['壱', '弐', '参', '四', '伍', '六', '七', '八', '九'];
@@ -334,7 +334,7 @@ export class LCD {
   }
 
   // RUSH表示
-  showRush(remaining: number): void {
+  showRush(_remaining: number): void {
     this.state = 'rush';
     // RUSH表示の実装
   }
