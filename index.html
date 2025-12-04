@@ -2,79 +2,124 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#000000">
-  <title>紅蓮の刻 -GUREN NO TOKI-</title>
-  <link rel="stylesheet" href="/src/styles/main.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>紅蓮の刻</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+      touch-action: manipulation;
+    }
+    #game {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    #game-wrapper {
+      position: relative;
+      transform-origin: center center;
+    }
+    #board {
+      display: block;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      border: 4px solid #333;
+      border-radius: 10px;
+    }
+    #ui {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      background: rgba(0,0,0,0.8);
+      padding: 10px 20px;
+      border-radius: 30px;
+      border: 2px solid #333;
+    }
+    .stat {
+      text-align: center;
+      color: #fff;
+      font-family: sans-serif;
+    }
+    .stat-label {
+      font-size: 10px;
+      color: #888;
+    }
+    .stat-value {
+      font-size: 18px;
+      font-weight: bold;
+      color: #ffd700;
+    }
+    #shoot-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #ff6600, #cc3300);
+      border: 3px solid #ff9900;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(255,102,0,0.6);
+      -webkit-tap-highlight-color: transparent;
+    }
+    #shoot-btn:active {
+      transform: scale(0.95);
+      box-shadow: 0 0 25px rgba(255,102,0,0.9);
+    }
+    #mode {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.8);
+      color: #fff;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-family: sans-serif;
+      font-size: 14px;
+      border: 2px solid #333;
+    }
+    #mode.rush {
+      background: linear-gradient(135deg, #660000, #990000);
+      border-color: #ff3d00;
+      color: #ff3d00;
+      animation: pulse 0.5s infinite alternate;
+    }
+    @keyframes pulse {
+      from { box-shadow: 0 0 10px rgba(255,61,0,0.5); }
+      to { box-shadow: 0 0 20px rgba(255,61,0,0.9); }
+    }
+  </style>
 </head>
 <body>
-  <div id="game-container">
-    <!-- メイン盤面 -->
-    <div id="pachinko-cabinet">
-      <!-- 上部ランプ -->
-      <div id="top-lamp">
-        <div class="lamp-text">紅蓮の刻</div>
-      </div>
-
-      <!-- 盤面エリア -->
-      <div id="board-area">
-        <!-- 液晶画面（デジタル） -->
-        <div id="lcd-screen">
-          <canvas id="lcd-canvas"></canvas>
-        </div>
-        <!-- 盤面（玉が落ちる部分） -->
-        <canvas id="board-canvas"></canvas>
-      </div>
-
-      <!-- 下部パネル -->
-      <div id="bottom-panel">
-        <div id="ball-info">
-          <div class="info-item">
-            <span class="label">持玉</span>
-            <span id="ball-count" class="value">1000</span>
-          </div>
-          <div class="info-item">
-            <span class="label">総回転</span>
-            <span id="spin-count" class="value">0</span>
-          </div>
-          <div class="info-item">
-            <span class="label">大当り</span>
-            <span id="jackpot-count" class="value">0</span>
-          </div>
-        </div>
-
-        <!-- 発射ハンドル -->
-        <div id="handle-area">
-          <div id="handle">
-            <div id="handle-knob"></div>
-          </div>
-          <div id="handle-power">
-            <div id="power-bar"></div>
-          </div>
-        </div>
-      </div>
+  <div id="game">
+    <div id="mode">通常モード</div>
+    <div id="game-wrapper">
+      <canvas id="board"></canvas>
     </div>
-
-    <!-- サイドパネル（演出情報など） -->
-    <div id="side-panel">
-      <div id="game-status">
-        <div class="status-title">GAME STATUS</div>
-        <div id="mode-display">通常モード</div>
-        <div id="rush-counter" class="hidden">
-          <span class="rush-label">RUSH</span>
-          <span id="rush-remaining">100</span>
-          <span class="rush-unit">回転</span>
-        </div>
+    <div id="ui">
+      <div class="stat">
+        <div class="stat-label">持玉</div>
+        <div class="stat-value" id="balls">500</div>
       </div>
-      <div id="history">
-        <div class="history-title">大当り履歴</div>
-        <div id="history-list"></div>
+      <div class="stat">
+        <div class="stat-label">回転</div>
+        <div class="stat-value" id="spins">0</div>
       </div>
+      <div class="stat">
+        <div class="stat-label">大当り</div>
+        <div class="stat-value" id="wins">0</div>
+      </div>
+      <div id="shoot-btn"></div>
     </div>
   </div>
-
   <script type="module" src="/src/main.ts"></script>
 </body>
 </html>
