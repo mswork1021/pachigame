@@ -298,16 +298,19 @@ export class Game {
     this.state.balls--;
 
     // 発射位置（右レーンの下部）
-    const x = 520;
-    const y = 650;
+    const x = 510;
+    const y = 680;
 
-    // 発射速度（パワーに応じて）
-    const power = 15 + this.shootPower * 10;
-    const angle = -Math.PI / 2 - 0.1; // ほぼ真上、少し左向き
+    // 発射速度（パワーに応じて上に打ち上げる）
+    // パワーが強いほど上まで飛ぶ
+    const basePower = 18;
+    const powerRange = 8;
+    const power = basePower + this.shootPower * powerRange;
 
+    // 真上に発射（レールに沿って上昇）
     const velocity = {
-      x: Math.cos(angle) * power,
-      y: Math.sin(angle) * power
+      x: 0,
+      y: -power
     };
 
     const ball = this.physics.createBall(x, y, velocity);
