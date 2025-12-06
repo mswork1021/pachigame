@@ -3,7 +3,7 @@ import Matter from 'matter-js';
 // ゲーム設定
 const BOARD_WIDTH = 360;
 const BOARD_HEIGHT = 580;
-const BALL_RADIUS = 6;
+const BALL_RADIUS = 4;
 const NAIL_RADIUS = 3;
 
 // ゲーム状態
@@ -72,11 +72,7 @@ function createWalls() {
     // 下の誘導壁
     Matter.Bodies.rectangle(60, BOARD_HEIGHT - 30, 80, 8, { isStatic: true, angle: 0.3 }),
     Matter.Bodies.rectangle(BOARD_WIDTH - 60, BOARD_HEIGHT - 30, 80, 8, { isStatic: true, angle: -0.3 }),
-    // 液晶周りの壁
-    Matter.Bodies.rectangle(LCD.x - LCD.width/2 - 15, LCD.y, 10, LCD.height + 20, { isStatic: true }),
-    Matter.Bodies.rectangle(LCD.x + LCD.width/2 + 15, LCD.y, 10, LCD.height + 20, { isStatic: true }),
-    Matter.Bodies.rectangle(LCD.x, LCD.y - LCD.height/2 - 10, LCD.width + 20, 10, { isStatic: true }),
-    Matter.Bodies.rectangle(LCD.x, LCD.y + LCD.height/2 + 10, LCD.width + 20, 10, { isStatic: true }),
+    // 液晶周りの壁は無し（玉は液晶の後ろを通過する）
   ];
   Matter.Composite.add(world, walls);
 }
